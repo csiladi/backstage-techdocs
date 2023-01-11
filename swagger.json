@@ -1,0 +1,2036 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Organisations.Api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/organisations/{organisationId}/audit-entries": {
+      "get": {
+        "tags": [
+          "AuditEntries"
+        ],
+        "summary": "List the audit entries for the specified organisation",
+        "description": "Will be returned in decending order by their timestamp, I.e. The latest audit entries first",
+        "operationId": "AuditEntries_ListAuditEntries",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "recordedAfterUtc",
+            "in": "query",
+            "description": "Only returns audit entries recorderd after this datetime, optional",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items to return in a single page, optional",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "paginationToken",
+            "in": "query",
+            "description": "Allows the next page to be requested if populated with the pagination token returned by the previous page, optional",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}/audit-entries/mine": {
+      "get": {
+        "tags": [
+          "AuditEntries"
+        ],
+        "summary": "List the audit entries for the specified organisation by the current user",
+        "description": "The order is undefined",
+        "operationId": "AuditEntries_ListMyAuditEntries",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items to return in a single page, optional",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "paginationToken",
+            "in": "query",
+            "description": "Allows the next page to be requested if populated with the pagination token returned by the previous page, optional",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntryPageResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "List the organisations",
+        "operationId": "Organisations_ListOrganisations",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items to return in a single page, optional",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "paginationToken",
+            "in": "query",
+            "description": "Allows the next page to be requested if populated with the pagination token returned by the previous page, optional",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationPageResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationPageResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationPageResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Create an organisation",
+        "operationId": "Organisations_CreateOrganisation",
+        "requestBody": {
+          "description": "The new organisation",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationWithHiddenId"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationWithHiddenId"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationWithHiddenId"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationWithHiddenId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Get the specific organisation",
+        "operationId": "Organisations_GetOrganisation",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Perform one or more patch operations against the specified organisation",
+        "description": "<list type=\"bullet\">\r\n  <item>Cannot be used to modify the `Identifier`, `CrmNumber` or `Products`</item>\r\n  <item>\r\n    <href>http://jsonpatch.com/</href>\r\n  </item>\r\n</list>",
+        "operationId": "Organisations_PatchOrganisation",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "A Json Patch document",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Description",
+                  "path": "/Description",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                },
+                {
+                  "value": "internal",
+                  "path": "/Type",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Region",
+                  "path": "/Customisation/LogoS3Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Key",
+                  "path": "/Customisation/LogoS3Key",
+                  "op": "replace"
+                },
+                {
+                  "value": "",
+                  "path": "/Customisation/DefaultLocale",
+                  "op": "replace"
+                }
+              ]
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Description",
+                  "path": "/Description",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                },
+                {
+                  "value": "internal",
+                  "path": "/Type",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Region",
+                  "path": "/Customisation/LogoS3Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Key",
+                  "path": "/Customisation/LogoS3Key",
+                  "op": "replace"
+                },
+                {
+                  "value": "",
+                  "path": "/Customisation/DefaultLocale",
+                  "op": "replace"
+                }
+              ]
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Description",
+                  "path": "/Description",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                },
+                {
+                  "value": "internal",
+                  "path": "/Type",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Region",
+                  "path": "/Customisation/LogoS3Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Key",
+                  "path": "/Customisation/LogoS3Key",
+                  "op": "replace"
+                },
+                {
+                  "value": "",
+                  "path": "/Customisation/DefaultLocale",
+                  "op": "replace"
+                }
+              ]
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Description",
+                  "path": "/Description",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                },
+                {
+                  "value": "internal",
+                  "path": "/Type",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Region",
+                  "path": "/Customisation/LogoS3Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Logo S3 Key",
+                  "path": "/Customisation/LogoS3Key",
+                  "op": "replace"
+                },
+                {
+                  "value": "",
+                  "path": "/Customisation/DefaultLocale",
+                  "op": "replace"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Delete the specified organisation",
+        "operationId": "Organisations_DeleteOrganisation",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/identifier/{identifier}": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Get the specific organisation by identifier",
+        "operationId": "Organisations_GetOrganisationByIdentifier",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "The identifier to search for, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/product/{product}/{tenantId}": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Get organisations by product/tenant",
+        "description": "In practice this should only return a single organisation, but there is no constraint preventing multiple organisations from having the same product / tenant",
+        "operationId": "Organisations_GetOrganisationsByProductTenant",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "description": "The type of the product",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Products"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "The tenant Id for the product, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organisation"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organisation"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organisation"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}/identifier": {
+      "put": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Update the identifier of the specified organisation",
+        "operationId": "Organisations_UpdateOrganisationIdentifier",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new identifier, case-insensitive",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}/crm-number": {
+      "put": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Update the crm number of the specified organisation",
+        "operationId": "Organisations_UpdateOrganisationCrmNumber",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new crm number, case-insensitive",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "maxLength": 1000,
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}/products": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "List an organisation's products",
+        "operationId": "Organisations_ListOrganisationProducts",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrganisationProduct"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrganisationProduct"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrganisationProduct"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/organisations/{organisationId}/products/{product}/{tenantId}": {
+      "get": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Get the specific product for the specific organisation",
+        "operationId": "Organisations_GetOrganisationProduct",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "product",
+            "in": "path",
+            "description": "The type of the product",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Products"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "The tenant Id for the product, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Insert or update the specific product for the specific organisation",
+        "operationId": "Organisations_UpsertOrganisationProduct",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "product",
+            "in": "path",
+            "description": "The type of the product",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Products"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "The tenant Id for the product, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The body (`Environment`, `Region`, `DisplayName` and `Enabled`) of the organisation product",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationProductBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationProductBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationProductBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationProductBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Perform one or more patch operations against the specific product for the specific organisation",
+        "description": "<list type=\"bullet\">\r\n  <item>Cannot be used to modify the `Identifier`, `CrmNumber` or `Products`</item>\r\n  <item>\r\n    <href>http://jsonpatch.com/</href>\r\n  </item>\r\n</list>",
+        "operationId": "Organisations_PatchOrganisationProduct",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "product",
+            "in": "path",
+            "description": "The type of the product",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Products"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "The tenant Id for the product, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "A Json Patch document",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Environment",
+                  "path": "/Environment",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Region",
+                  "path": "/Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Display Name",
+                  "path": "/DisplayName",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                }
+              ]
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Environment",
+                  "path": "/Environment",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Region",
+                  "path": "/Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Display Name",
+                  "path": "/DisplayName",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                }
+              ]
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Environment",
+                  "path": "/Environment",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Region",
+                  "path": "/Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Display Name",
+                  "path": "/DisplayName",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                }
+              ]
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              },
+              "example": [
+                {
+                  "value": "My Environment",
+                  "path": "/Environment",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Region",
+                  "path": "/Region",
+                  "op": "replace"
+                },
+                {
+                  "value": "My Display Name",
+                  "path": "/DisplayName",
+                  "op": "replace"
+                },
+                {
+                  "value": true,
+                  "path": "/Enabled",
+                  "op": "replace"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationProduct"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Organisations"
+        ],
+        "summary": "Delete the specific product for the specific organisation",
+        "operationId": "Organisations_DeleteOrganisationProduct",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "description": "The id of the organisation",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "product",
+            "in": "path",
+            "description": "The type of the product",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Products"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "The tenant Id for the product, case-insensitive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              
+            ],
+            "Bearer": [
+              
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuditEntry": {
+        "required": [
+          "changeType",
+          "entityType",
+          "organisationId",
+          "patchOperations",
+          "recordedUtc",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "organisationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "recordedUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "entityType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "changeType": {
+            "$ref": "#/components/schemas/AuditEntryChangeTypes"
+          },
+          "patchOperations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Operation"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditEntryChangeTypes": {
+        "enum": [
+          "Create",
+          "Update",
+          "Delete"
+        ],
+        "type": "string"
+      },
+      "AuditEntryPageResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "nullable": true
+          },
+          "currentPaginationToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "nextPaginationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Operation": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "op": {
+            "type": "string",
+            "nullable": true
+          },
+          "from": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Organisation": {
+        "required": [
+          "identifier"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "identifier": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "crmNumber": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrganisationProduct"
+            },
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/OrganisationTypes"
+          },
+          "customisation": {
+            "$ref": "#/components/schemas/OrganisationCustomisation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganisationCustomisation": {
+        "type": "object",
+        "properties": {
+          "logoS3Region": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "logoS3Key": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLocale": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganisationPageResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Organisation"
+            },
+            "nullable": true
+          },
+          "currentPaginationToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "nextPaginationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganisationProduct": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "tenantId": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "environment": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganisationProductBody": {
+        "type": "object",
+        "properties": {
+          "environment": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganisationTypes": {
+        "enum": [
+          "customer",
+          "trial",
+          "demo",
+          "internal",
+          "auto-provision"
+        ],
+        "type": "string"
+      },
+      "OrganisationWithHiddenId": {
+        "required": [
+          "identifier"
+        ],
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "crmNumber": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrganisationProduct"
+            },
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/OrganisationTypes"
+          },
+          "customisation": {
+            "$ref": "#/components/schemas/OrganisationCustomisation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {
+          
+        }
+      },
+      "Products": {
+        "enum": [
+          "chemical_manager",
+          "ehs",
+          "learning_manager",
+          "crisis_manager",
+          "helpcenter",
+          "reportingtool",
+          "publisher",
+          "reseller",
+          "munio",
+          "almego"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "authorizationUrl": "https://auth.test.ecoonline.net/oauth/authorize",
+            "tokenUrl": "https://auth.test.ecoonline.net/oauth/token",
+            "scopes": {
+              
+            }
+          }
+        }
+      }
+    }
+  }
+}
