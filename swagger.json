@@ -4,6 +4,20 @@
     "title": "Organisations.Api",
     "version": "1.0"
   },
+  "servers": [
+    {
+      "url": {host}/,
+      "variables": {
+        "host": {
+          "enum": [
+            "",
+            "https://organisation.test.ecoonline.net"
+          ],
+          "default": ""
+        }
+      }
+    }
+  ],
   "paths": {
     "/organisations/{organisationId}/audit-entries": {
       "get": {
