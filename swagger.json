@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": {host}/,
+      "url": "{host}",
       "variables": {
         "host": {
           "enum": [
