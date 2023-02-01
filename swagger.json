@@ -10,10 +10,9 @@
       "variables": {
         "host": {
           "enum": [
-            "",
             "https://organisation.test.ecoonline.net"
           ],
-          "default": ""
+          "default": "https://organisation.test.ecoonline.net"
         }
       }
     }
